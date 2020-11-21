@@ -1,1 +1,34 @@
-<p>book-form works!</p>
+<div class='container'>
+	<h2>Nouveau livre</h2>
+	<form [formGroup]='bookForm' #f='ngForm' (ngSubmit)='onSubmit(f)'>
+		<div class='form-group'>
+			<label for='title'>Titre*</label>
+			<input 	type='text' 
+							id='title' 
+							formControlName='title'
+							class='form-control'>
+		</div>
+		<div class='form-group'>
+			<label for='author'>Auteur*</label>
+			<input 	type='text' 
+							id='author' 
+							formControlName='author'
+							class='form-control'>
+		</div>
+		<div class='form-group'>
+			<label for='synopsis'>Synopsis</label>
+			<textarea id='synopsis'
+								formControlName='synopsis'
+								class='form-control'></textarea>
+		</div>
+		<div class='form-group'>
+			<h4>Ajouter une photo</h4>
+			<input 	type='file' 
+							id='photo'
+							accept='image/*'
+							class='form-control'
+							(change)='detectFiles($event)'>
+		</div>
+		<button type='submit' [disabled]='bookForm.invalid || fileIsUploading' class='btn btn-success'>Valider</button>
+	</form>
+</div>
