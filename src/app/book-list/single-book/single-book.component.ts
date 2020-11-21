@@ -38,7 +38,7 @@ export class SingleBookComponent implements OnInit {
   }
 
   onDeleteBook(){
-  	if(confirm('Êtes-vous sûr de vouloir retirer ce livre de votre bibliothèque ?')){
+  	if(confirm('"'+this.book.title+'"\n\rCe livre sera supprimé de votre bibliothèque. Continuer ?')){
   		this.booksService.removeBook(this.book);
   		this.router.navigate(['/books']);
   	}

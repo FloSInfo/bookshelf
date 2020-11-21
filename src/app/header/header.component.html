@@ -9,9 +9,6 @@
 		<li class='nav-item' routerLinkActive='active' *ngIf='isAuth'>
 			<a class='nav-link' routerLink='books'>Liste des livres</a>
 		</li>
-		<li class='nav-item' routerLinkActive='active' *ngIf='isAuth'>
-			<a class='nav-link' routerLink='auth/signin' (click)='onSignOut()'>Déconnexion</a>
-		</li>
 	</ul>
 	<button type='button' class='btn btn-danger' (click)='onSignOut()' *ngIf='isAuth'>Déconnexion</button>
 </nav>

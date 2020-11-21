@@ -32,7 +32,9 @@ export class BookListComponent implements OnInit, OnDestroy{
   }
 
   onDeleteBook(book: Book){
-  	this.booksService.removeBook(book);
+    if(confirm('"'+book.title+'"\n\rCe livre sera supprimé de votre bibliothèque. Continuer ?')){
+      this.booksService.removeBook(book);
+    }
   }
 
   onNewBook(){
