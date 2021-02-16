@@ -32,17 +32,15 @@ import { BooksService } from './services/books.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(
-  		[
-	    	{path: 'auth/signup', component: SignupComponent },
-	    	{path: 'auth/signin', component: SigninComponent },
-	    	{path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
-	    	{path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
-	    	{path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },
-	    	{path: '', redirectTo: 'books', pathMatch:'full'},
-	    	{path: '**', redirectTo: 'books'}
-    	]
-    )
+    RouterModule.forRoot([
+    { path: 'auth/signup', component: SignupComponent },
+    { path: 'auth/signin', component: SigninComponent },
+    { path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
+    { path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
+    { path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },
+    { path: '', redirectTo: 'books', pathMatch: 'full' },
+    { path: '**', redirectTo: 'books' }
+], { relativeLinkResolution: 'legacy' })
   ],
   providers: [
   	AuthService,

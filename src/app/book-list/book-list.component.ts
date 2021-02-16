@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BooksService } from 'src/app/services/books.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Book } from 'src/app/models/book.model';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -15,14 +16,15 @@ export class BookListComponent implements OnInit, OnDestroy{
 	booksList: Book[] = [];
 
   constructor(private booksService: BooksService,
-  						private router: Router) { }
+  						private router: Router,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
   	this.booksSubscription = this.booksService.booksSubject.subscribe(
   		value => this.booksList = value,
   		err => console.log('book-list.booksSubscription.next(): '+err)
   	);
-  	this.booksService.emitBooks();
+  	this.booksService.getBooks(this.authService.getUid());
   }
 
   onViewBook(index: number){
@@ -33,7 +35,7 @@ export class BookListComponent implements OnInit, OnDestroy{
 
   onDeleteBook(book: Book){
     if(confirm('"'+book.title+'"\n\rCe livre sera supprimé de votre bibliothèque. Continuer ?')){
-      this.booksService.removeBook(book);
+      this.booksService.removeBook(this.authService.getUid(), book);
     }
   }
 

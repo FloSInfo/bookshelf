@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/bookshelf",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}

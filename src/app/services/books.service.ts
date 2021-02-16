@@ -11,31 +11,31 @@ export class BooksService {
 	books: Book[] = [];
 	booksSubject = new Subject<Book[]>();
 
-  constructor() {
-  	this.getBooks();
-  }
+  constructor() {}
 
   emitBooks() {
   	this.booksSubject.next(this.books);
   }
 
-  saveBooks() {
-  	firebase.database().ref('/books').set(this.books);
+  saveBooks(userId) {
+  	firebase.database().ref('/users/'+userId+'/books').set(this.books);
   }
 
-  getBooks() {
-  	firebase.database().ref('/books').on('value',
-  		(snapshot) => {
-  			this.books = snapshot.val() ? snapshot.val() : [];
-  			this.emitBooks();
-  		}
-  	);
+  getBooks(userId) {
+    if(userId) {
+      firebase.database().ref('/users/'+userId+'/books').on('value',
+        (snapshot) => {
+          this.books = snapshot.val() ? snapshot.val() : [];
+          this.emitBooks();
+        }
+      );
+    }
   }
 
-  getSingleBook(id: number) {
+  getSingleBook(userId, bookId: number) {
   	return new Promise(
   		(resolve, reject) => {
-  			firebase.database().ref('/books/'+id).once('value').then(
+  			firebase.database().ref('/users/'+userId+'/books/'+bookId).once('value').then(
   				(data) => {
   					resolve(data.val());
   				},
@@ -47,12 +47,12 @@ export class BooksService {
   	);
   }
 
-  createNewBook(newBook: Book){
+  createNewBook( userId, newBook: Book){
   	this.books.push(newBook);
-  	this.saveBooks();
+  	this.saveBooks(userId);
   }
 
-  removeBook(book: Book){
+  removeBook(userId, book: Book){
   	const bookIndex = this.books.findIndex(
 			(elem) => {
 				return elem === book;
@@ -60,7 +60,7 @@ export class BooksService {
 		);
 
 		this.books.splice(bookIndex, 1);
-		this.saveBooks();
+		this.saveBooks(userId);
 		if(book.photo){
 			firebase.storage().refFromURL(book.photo).delete()
 			.then(
