@@ -1,41 +1,45 @@
 import { Injectable } from '@angular/core';
 import { Book } from 'src/app/models/book.model';
 import { Subject } from 'rxjs';
-import firebase from '@firebase/app';
-import '@firebase/database';
-import '@firebase/storage';
+import { Database, getDatabase, ref as dbref, set, get, onValue } from '@firebase/database';
+import { FirebaseStorage, getStorage, ref as storeref, uploadBytesResumable, getDownloadURL, TaskEvent, deleteObject } from '@firebase/storage';
 
 @Injectable()
 export class BooksService {
 
+	database: Database;
+	storage: FirebaseStorage;
 	books: Book[] = [];
 	booksSubject = new Subject<Book[]>();
 
   constructor() {
-  	this.getBooks();
+  	this.database = getDatabase();
+  	this.storage = getStorage();
   }
 
   emitBooks() {
   	this.booksSubject.next(this.books);
   }
 
-  saveBooks() {
-  	firebase.database().ref('/books').set(this.books);
+  saveBooks(userId) {
+  	set(dbref(this.database, '/users/'+userId+'/books'), this.books);
   }
 
-  getBooks() {
-  	firebase.database().ref('/books').on('value',
+  getBooks(userId) {
+  	onValue(dbref(this.database, '/users/'+userId+'/books'),
   		(snapshot) => {
   			this.books = snapshot.val() ? snapshot.val() : [];
+  			let i = 0;
+  			this.books.forEach(elem => elem.id = i++);
   			this.emitBooks();
   		}
   	);
   }
 
-  getSingleBook(id: number) {
+  getSingleBook(userId, bookId: number) {
   	return new Promise(
   		(resolve, reject) => {
-  			firebase.database().ref('/books/'+id).once('value').then(
+  			get(dbref(this.database, '/users/'+userId+'/books/'+bookId)).then(
   				(data) => {
   					resolve(data.val());
   				},
@@ -47,22 +51,35 @@ export class BooksService {
   	);
   }
 
-  createNewBook(newBook: Book){
+  createNewBook(userId, newBook: Book){
   	this.books.push(newBook);
-  	this.saveBooks();
+  	this.saveBooks(userId);
   }
 
-  removeBook(book: Book){
-  	const bookIndex = this.books.findIndex(
-			(elem) => {
-				return elem === book;
+  removeBook(userId, book: Book){
+  	var bookIndex = new Promise(
+  		(resolve, reject) => {
+  			let	index = -1;
+
+		  	for(let i = 0; i < this.books.length; i++){
+					if(book.id === this.books[i].id) {
+						index = i;
+						break;
+					}
+				}
+				resolve(index);
+  		}
+  	);
+
+  	bookIndex.then(
+  		(index:number) => {
+				this.books.splice(index, 1);
+				this.saveBooks(userId);
 			}
 		);
-
-		this.books.splice(bookIndex, 1);
-		this.saveBooks();
+		
 		if(book.photo){
-			firebase.storage().refFromURL(book.photo).delete()
+			deleteObject(storeref(this.storage, book.photo))
 			.then(
 				() => console.log('Book\'s photo removed')
 			).catch(
@@ -75,10 +92,10 @@ export class BooksService {
   	return new Promise(
   		(resolve, reject) => {
   			const almostUniqueFileName = Date.now().toString(); //timestamp
-  			var upload = firebase.storage().ref().child('books_photo/'+almostUniqueFileName+file.name).put(file);
-  			let unsubscribe = upload.on(firebase.storage.TaskEvent.STATE_CHANGED,
+  			var upload = uploadBytesResumable(storeref(getStorage(), 'books_photo/'+almostUniqueFileName+file.name),file);
+  			let unsubscribe = upload.on('state_changed',
   				(snapshot) => {
-  					console.log('Image uploading ('+snapshot.bytesTransferred+'/'+snapshot.totalBytes+' bytes');
+  					console.log('Image uploading ('+snapshot.bytesTransferred+'/'+snapshot.totalBytes+' bytes)');
   				},
   				(err) => {
   					console.log('Error while uploading image: '+err);
@@ -87,7 +104,7 @@ export class BooksService {
   				() => {
   					console.log('Image\'s upload complete');
   					unsubscribe();
-  					resolve(upload.snapshot.ref.getDownloadURL());
+  					resolve(getDownloadURL(upload.snapshot.ref));
   				}
   			);
   		}

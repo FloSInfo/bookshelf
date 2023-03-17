@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import firebase from '@firebase/app';
+import { initializeApp } from '@firebase/app';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,7 @@ import firebase from '@firebase/app';
 })
 export class AppComponent {
   title = 'bookshelf';
+  app;
 
   constructor() {
   	var firebaseConfig = {
@@ -20,6 +21,6 @@ export class AppComponent {
 	    appId: "1:13935821248:web:2379118a1cda6b15cd0825"
 	  };
   	// Initialize Firebase
-  	firebase.initializeApp(firebaseConfig);
-  } 
+  	initializeApp(firebaseConfig);
+  }
 }

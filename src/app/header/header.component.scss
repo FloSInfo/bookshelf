@@ -1,0 +1,33 @@
+.navbar-nav {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+}
+
+.nav-item {
+
+	> .nav-link{
+		margin: 1rem;
+		font-weight: bolder;
+		font-size: 1.2rem;
+	}
+	
+	&.active > .nav-link{
+		display: none;
+	}
+}
+
+button {
+	margin-left: auto;
+}
+
+.userWarning {
+	height: 1.5rem;
+	width: 100%;
+}
+
+.userAlert {
+	padding: 1px 2rem;
+	font-style: italic;
+}

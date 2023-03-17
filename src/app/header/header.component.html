@@ -10,5 +10,6 @@
 			<a class='nav-link' routerLink='books'>Liste des livres</a>
 		</li>
 	</ul>
-	<button type='button' class='btn btn-danger' (click)='onSignOut()' *ngIf='isAuth'>Déconnexion</button>
+	<button type='button' class='btn' (click)='onSignOut()' *ngIf='isAuth'>Déconnexion</button>
 </nav>
+<div id="userAlert" class="userAlert"></div>

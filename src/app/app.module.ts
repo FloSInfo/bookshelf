@@ -16,6 +16,7 @@ import { HeaderComponent } from './header/header.component';
 import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { BooksService } from './services/books.service';
+import { UserAlertService } from 'src/app/services/user-alert.service';
 
 @NgModule({
   declarations: [
@@ -32,22 +33,21 @@ import { BooksService } from './services/books.service';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(
-  		[
-	    	{path: 'auth/signup', component: SignupComponent },
-	    	{path: 'auth/signin', component: SigninComponent },
-	    	{path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
-	    	{path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
-	    	{path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },
-	    	{path: '', redirectTo: 'books', pathMatch:'full'},
-	    	{path: '**', redirectTo: 'books'}
-    	]
-    )
+    RouterModule.forRoot([
+      { path: 'auth/signup', component: SignupComponent },
+      { path: 'auth/signin', component: SigninComponent },
+      { path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
+      { path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
+      { path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },
+      { path: '', redirectTo: 'books', pathMatch: 'full' },
+      { path: '**', redirectTo: 'books' }
+    ])
   ],
   providers: [
   	AuthService,
   	AuthGuardService,
-  	BooksService
+  	BooksService,
+    UserAlertService
   ],
   bootstrap: [AppComponent]
 })

@@ -1,21 +1,39 @@
 import { Injectable } from '@angular/core';
-import firebase from '@firebase/app';
-import "@firebase/auth";
+import { Subject } from 'rxjs';
+import {Auth, getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser, onAuthStateChanged, User} from "@firebase/auth";
 
 @Injectable()
 export class AuthService {
 
-  constructor() { }
+  auth: Auth;
+  authStateUnsub: Function;
+  authSubject = new Subject<User|Error>();
+
+  constructor() { 
+    this.auth = getAuth();
+    this.authStateUnsub = onAuthStateChanged(this.auth,
+      (user) => this.authSubject.next(user),
+      (authError) => this.authSubject.error(authError)
+    );
+  }
+
+  getUid() {
+    return this.auth.currentUser.uid;
+  }
 
   createNewUser(email: string, password: string) {
-  	return firebase.auth().createUserWithEmailAndPassword(email, password);
+  	return createUserWithEmailAndPassword(this.auth, email, password);
   }
 
   signInUser(email: string, password: string) {
-  	return firebase.auth().signInWithEmailAndPassword(email, password);
+  	return signInWithEmailAndPassword(this.auth, email, password);
+  }
+
+  removeCurrentUser() {
+    return deleteUser(this.auth.currentUser);
   }
 
   signOutUser() {
-  	firebase.auth().signOut();
+  	this.auth.signOut();
   }
 }

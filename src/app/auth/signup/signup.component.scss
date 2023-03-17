@@ -1,0 +1,21 @@
+.form-control{
+	&.ng-valid {
+		&.ng-dirty {
+			border-color: green;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #3cdc3c40;
+			}
+		}
+	}
+
+	&.ng-invalid {
+		&.ng-dirty {
+			border-color: red;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #dc3c3c40;
+			}
+		}
+	}
+}

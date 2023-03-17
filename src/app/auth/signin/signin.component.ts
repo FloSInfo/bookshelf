@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserAlertService } from 'src/app/services/user-alert.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +15,8 @@ export class SigninComponent implements OnInit {
 	errorMessage: string;
 
   constructor(private formBuilder: FormBuilder,
-  						private authService: AuthService,
+              private authService: AuthService,
+  						private userAlertService: UserAlertService,
   						private router: Router) { }
 
   ngOnInit(): void {
@@ -34,10 +36,21 @@ export class SigninComponent implements OnInit {
 
   	this.authService.signInUser(email, password).then(
   		() => {
+        if(this.errorMessage) {
+          this.errorMessage = null;
+          this.userAlertService.clear();
+        }
   			this.router.navigate(['/books']);
   		}
   	).catch(
   		(error) => {
+        switch(error.code) {
+          case 'auth/too-many-requests':
+            this.userAlertService.alert('L\'accès à ce compte a été temporairement bloqué dû à un trop grand nombre de tentatives de connexion échouées.');
+            break;
+          default:
+            this.userAlertService.alert(error.message);
+        }
   			this.errorMessage = error;
   		}
   	);

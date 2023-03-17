@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BooksService } from 'src/app/services/books.service';
+import { AuthService } from 'src/app/services/auth.service';
 import { Book } from 'src/app/models/book.model';
 
 @Component({
@@ -17,7 +18,8 @@ export class BookFormComponent implements OnInit {
 	fileUrl: string;
 
   constructor(private booksService: BooksService,
-  						private router: Router,
+              private authService: AuthService,
+              private router: Router,
   						private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class BookFormComponent implements OnInit {
   			newBook.photo = this.fileUrl;
   		}
 
-  		this.booksService.createNewBook(newBook);
+  		this.booksService.createNewBook(this.authService.getUid(), newBook);
   		this.router.navigate(['/books']);
   	}
   }

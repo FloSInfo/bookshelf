@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Book } from 'src/app/models/book.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { BooksService } from 'src/app/services/books.service';
 
 @Component({
@@ -13,6 +14,7 @@ export class SingleBookComponent implements OnInit {
 	book: Book;
 
   constructor(private booksService: BooksService,
+              private authService: AuthService,
   						private router: Router,
   						private route: ActivatedRoute) { }
 
@@ -20,7 +22,7 @@ export class SingleBookComponent implements OnInit {
   	this.route.params.subscribe(
   		params => {
   			if(typeof params.id !== 'undefined'){
-		  		this.booksService.getSingleBook(params.id).then(
+		  		this.booksService.getSingleBook(this.authService.getUid(), params.id).then(
 			  		(bookVal: Book) => {
 			  			if(bookVal){
 			  				this.book = bookVal;
@@ -39,7 +41,7 @@ export class SingleBookComponent implements OnInit {
 
   onDeleteBook(){
   	if(confirm('"'+this.book.title+'"\n\rCe livre sera supprimé de votre bibliothèque. Continuer ?')){
-  		this.booksService.removeBook(this.book);
+  		this.booksService.removeBook(this.authService.getUid(), this.book);
   		this.router.navigate(['/books']);
   	}
   }
