@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Book } from 'src/app/models/book.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { BooksService } from 'src/app/services/books.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-single-book',
@@ -16,7 +17,8 @@ export class SingleBookComponent implements OnInit {
   constructor(private booksService: BooksService,
               private authService: AuthService,
   						private router: Router,
-  						private route: ActivatedRoute) { }
+  						private route: ActivatedRoute,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
   	this.route.params.subscribe(

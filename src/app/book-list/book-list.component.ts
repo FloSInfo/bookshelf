@@ -25,6 +25,7 @@ export class BookListComponent implements OnInit, OnDestroy{
     	next:	value => this.booksList = value,
     	error: err => console.log('book-list.booksSubscription.next(): '+err)
   	});
+
   	this.booksService.getBooks(this.authService.getUid());
   }
 

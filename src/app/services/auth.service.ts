@@ -21,6 +21,10 @@ export class AuthService {
     return this.auth.currentUser.uid;
   }
 
+  getUid() {
+    return firebase.auth().currentUser.uid;
+  }
+
   createNewUser(email: string, password: string) {
   	return createUserWithEmailAndPassword(this.auth, email, password);
   }
