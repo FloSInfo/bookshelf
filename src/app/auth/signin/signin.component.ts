@@ -46,7 +46,13 @@ export class SigninComponent implements OnInit {
   		(error) => {
         switch(error.code) {
           case 'auth/too-many-requests':
-            this.userAlertService.alert('L\'accès à ce compte a été temporairement bloqué dû à un trop grand nombre de tentatives de connexion échouées.');
+            this.userAlertService.alert('L\'accès à ce compte a été temporairement bloqué dû à un trop grand nombre de tentatives de connexion échouées. Restaurez votre accès en réinitialisant votre mot de passe.');
+            break;
+          case 'auth/wrong-password':
+            this.userAlertService.alert('Le mot de passe renseigné n\'est pas le bon.');
+            break;
+          case 'auth/user-not-found':
+            this.userAlertService.alert('L\'adresse email renseignée ne correspond à aucun compte existant.');
             break;
           default:
             this.userAlertService.alert(error.message);

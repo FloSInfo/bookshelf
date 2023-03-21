@@ -14,3 +14,24 @@ button{
 		border-color: grey;
 	}
 }
+
+
+.form-control{
+	max-width: 30em;
+	&.ng-dirty {
+		&.ng-valid {
+			border-color: green;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #3cdc3c40;
+			}
+		}
+		&.ng-invalid {
+			border-color: #dc3c3c40;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #dc3c3c40;
+			}
+		}
+	}
+}

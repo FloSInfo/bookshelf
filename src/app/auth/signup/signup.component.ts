@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UserAlertService } from 'src/app/services/user-alert.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 
@@ -12,13 +13,19 @@ export class SignupComponent implements OnInit {
 
 	signupForm: FormGroup;
 	errorMessage: string;
+  passwordElem: HTMLElement;
+  passwordInfo: HTMLElement;
 
   constructor(private formBuilder: FormBuilder,
   						private authService: AuthService,
+              private userAlertService: UserAlertService,
   						private router: Router) { }
 
   ngOnInit(): void {
   	this.initForm();
+    this.passwordElem = document.getElementById('password');
+    this.passwordInfo = document.getElementById('passwordInfo');
+    this.passwordElem.addEventListener("blur", ()=>(this.onPasswordBlur()));
   }
 
   initForm() {
@@ -26,6 +33,18 @@ export class SignupComponent implements OnInit {
   		'email': ['', [Validators.required, Validators.email]],
   		'password': ['', [Validators.required, Validators.pattern(/[0-9a-zA-Z]{6,}/)]]
   	});
+  }
+
+  onPasswordBlur() {
+    let passwordForm = this.signupForm.get('password');
+    if(passwordForm.invalid && passwordForm.dirty){
+      if(this.passwordInfo.style.display === ""){
+        this.passwordInfo.style.display = "block";
+      }
+    }
+    else if(this.passwordInfo.style.display === "block") {
+      this.passwordInfo.style.display = "";
+    }
   }
 
   onSubmit() {
@@ -39,6 +58,14 @@ export class SignupComponent implements OnInit {
   	).catch(
   		(error) => {
   			this.errorMessage = error;
+        console.log(error.code);
+        switch(error.code) {
+          case 'auth/email-already-in-use':
+            this.userAlertService.alert('Cette adresse email est déjà utilisée.');
+            break;
+          default:
+            this.userAlertService.alert(error.message);
+        }
   		}
   	);
   }
