@@ -53,6 +53,7 @@ export class SignupComponent implements OnInit {
 
   	this.authService.createNewUser(email, password).then(
   		() => {
+        this.userAlertService.clear();
   			this.router.navigate(['/books']);
   		}
   	).catch(

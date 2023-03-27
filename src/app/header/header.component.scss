@@ -7,19 +7,15 @@
 
 .nav-item {
 
-	> .nav-link{
+	>.nav-link {
 		margin: 1rem;
 		font-weight: bolder;
 		font-size: 1.2rem;
 	}
-	
-	&.active > .nav-link{
+
+	&.active>.nav-link {
 		display: none;
 	}
-}
-
-button {
-	margin-left: auto;
 }
 
 .userWarning {
@@ -28,8 +24,45 @@ button {
 }
 
 .userAlert {
-	font-size: 1.15rem;	
-	text-align: center;	
+	font-size: 1.15rem;
+	text-align: center;
 	margin: auto;
 	font-style: italic;
+}
+
+#param-menu {
+	margin-left: auto;
+
+
+	&>.dropdown-menu {
+		right: 0;
+		left: auto;
+		padding: 0;
+		overflow: hidden;
+
+		&>* {
+			padding: 0.8rem 1rem;
+
+			&:hover {
+				cursor: pointer;
+			}
+		}
+	}
+
+	&.show>button {
+		transform: scale(1.2);
+	}
+
+	&>button {
+		transition: transform;
+
+		&:hover {
+			transform: scale(1.2);
+			transition: transform 100ms;
+		}
+
+		&:focus {
+			box-shadow: none;
+		}
+	}
 }

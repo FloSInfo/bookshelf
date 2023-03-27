@@ -18,7 +18,7 @@ export class UserAlertService {
     if(time > 0){
       setTimeout(() => {
         this.messageSubject.next('');
-      });
+      }, time);
     }
   }
 

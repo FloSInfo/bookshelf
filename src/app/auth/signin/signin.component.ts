@@ -40,6 +40,7 @@ export class SigninComponent implements OnInit {
           this.errorMessage = null;
           this.userAlertService.clear();
         }
+        this.userAlertService.clear();
   			this.router.navigate(['/books']);
   		}
   	).catch(
