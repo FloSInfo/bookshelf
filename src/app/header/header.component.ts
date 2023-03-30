@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserAlertService } from 'src/app/services/user-alert.service';
+import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Button } from 'protractor';
 
 @Component({
   selector: 'app-header',
@@ -15,15 +15,23 @@ export class HeaderComponent implements OnInit {
   authStateSubscription: Subscription;
   userAlertServiceSubscription: Subscription;
   userAlert = '';
+  username = '';
 
   constructor(private authService: AuthService,
-    private userAlertService: UserAlertService) { }
+    private userAlertService: UserAlertService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.authService.authSubject.subscribe(
       (user) => {
-        if (user) this.isAuth = true;
-        else this.isAuth = false;
+        if(user) {
+          this.isAuth = true;
+          // @ts-ignore
+          this.username = user.providerData[0].email;
+        }
+        else {
+          this.isAuth = false;
+        }
       },
       () => this.isAuth = false
     );
@@ -42,6 +50,7 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  //start parameters menu icon's animation when its submenu is expanded
   onParamClick(event) {
     let anim = document.getElementById('paramRotation');
     if (event.currentTarget.getAttribute('aria-expanded') === 'false') {
@@ -68,16 +77,20 @@ export class HeaderComponent implements OnInit {
   onDeleteAccount(event) {
     event.preventDefault();
     if (window.confirm('Vous êtes sur le point de supprimer définitivement votre compte utilisateur ainsi que les données liées.')) {
-      try {
-        this.authService.removeCurrentUser().then(
-          () => {
-            this.userAlertService.alert('Compte supprimé avec succès', 15000);
-          }
-        ).catch();
-      }
-      catch (error) {
-        this.userAlertService.alert(error.message);
-      }
+      this.authService.removeCurrentUser().then(
+        () => {
+          this.userAlertService.alert('Suppression du compte réussie.', 15000);
+        }
+      ).catch((error) => {
+        switch (error.code) {
+          case 'auth/requires-recent-login':
+            this.userAlertService.alert('Cette action nécessite une authentification récente pour être validée, veuillez vous ré-authentifier pour continuer');
+            this.router.navigate(['/auth','deleteAccount']);
+            break;
+          default:
+            this.userAlertService.alert(error.message);
+        }
+      });
     }
   }
 }

@@ -1,0 +1,15 @@
+<div class='container'>
+	<div class='row'>
+		<div class='col'>
+			<form [formGroup]='deleteAccountForm' (ngSubmit)='onSubmit()'>
+				<h3>Adresse email</h3>
+				<p>{{ userMail }}</p>
+				<div class='form-group'>
+					<label for='password'>Mot de passe</label>
+					<input type='password' id='password' class='form-control' formControlName='password'>
+				</div>
+				<button class='btn btn-primary' [disabled]='deleteAccountForm.invalid'>Supprimer compte</button>
+			</form>
+		</div>
+	</div>
+</div>

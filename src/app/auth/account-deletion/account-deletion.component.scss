@@ -1,0 +1,35 @@
+.container {
+    font-size: 1.2rem;
+}
+
+h3 {
+    font-size: 1.1em;
+}
+
+p {
+    margin-left: 1rem;
+}
+
+label {
+    font-size: 1.1em;
+}
+
+.form-control{
+	max-width: 30em;
+	&.ng-dirty {
+		&.ng-valid {
+			border-color: green;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #3cdc3c40;
+			}
+		}
+		&.ng-invalid {
+			border-color: #dc3c3c40;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #dc3c3c40;
+			}
+		}
+	}
+}

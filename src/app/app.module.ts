@@ -17,6 +17,8 @@ import { AuthService } from './services/auth.service';
 import { AuthGuardService } from './services/auth-guard.service';
 import { BooksService } from './services/books.service';
 import { UserAlertService } from 'src/app/services/user-alert.service';
+import { AccountDeletionComponent } from './auth/account-deletion/account-deletion.component';
+import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { UserAlertService } from 'src/app/services/user-alert.service';
     BookListComponent,
     SingleBookComponent,
     BookFormComponent,
-    HeaderComponent
+    HeaderComponent,
+    AccountDeletionComponent,
+    PasswordResetComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +40,8 @@ import { UserAlertService } from 'src/app/services/user-alert.service';
     RouterModule.forRoot([
       { path: 'auth/signup', component: SignupComponent },
       { path: 'auth/signin', component: SigninComponent },
+      { path: 'auth/resetPassword', component: PasswordResetComponent },
+      { path: 'auth/deleteAccount', canActivate: [AuthGuardService], component: AccountDeletionComponent },
       { path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
       { path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
       { path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },
