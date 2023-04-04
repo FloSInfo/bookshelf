@@ -23,7 +23,11 @@ export class PasswordResetComponent implements OnInit {
     private router: Router) { }
 
     ngOnInit(): void {
-      this.authService.authSubject.subscribe(
+      this.isAuth = this.authService.isConnected();
+      if (this.isAuth){
+        this.mail = this.authService.getMailAdress();
+      }
+      this.authStateSubscription = this.authService.authSubject.subscribe(
         (user) => {
           if(user) {
             this.isAuth = true;
@@ -34,7 +38,9 @@ export class PasswordResetComponent implements OnInit {
             this.isAuth = false;
           }
         },
-        () => this.isAuth = false
+        () => {
+          this.isAuth = false;
+        }
       );
 
       this.initForm();
@@ -54,7 +60,16 @@ export class PasswordResetComponent implements OnInit {
           this.userAlertService.alert('Le lien de réinitialisation du mot de passe a été envoyé à l\'adresse indiqué');
         }
       ).catch((error) => {
-        console.log(error);
+        switch(error.code) {
+          case 'auth/too-many-requests':
+            this.userAlertService.alert('L\'accès à ce compte a été temporairement bloqué dû à un trop grand nombre de tentatives de connexion échouées. Restaurez votre accès en réinitialisant votre mot de passe.');
+            break;
+          case 'auth/user-not-found':
+            this.userAlertService.alert('L\'adresse email renseignée ne correspond à aucun compte existant.');
+            break;
+          default:
+            this.userAlertService.alert(error.message);
+        }
       });
     }
 

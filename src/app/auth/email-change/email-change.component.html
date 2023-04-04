@@ -1,10 +1,10 @@
 <div class='container'>
 	<div class='row'>
 		<div class='col'>
-			<h2>Connexion</h2>
-			<form [formGroup]='signInForm' (ngSubmit)='onSubmit()'>
+            <p>Adresse actuelle: {{mail}}</p>
+			<form [formGroup]='changeMailForm' (ngSubmit)='onMailSubmit()'>
 				<div class='form-group'>
-					<label for='email'>Adresse mail</label>
+					<label for='email'>Nouvelle adresse mail</label>
 					<input 
 						type='text' 
 						id='email' 
@@ -12,14 +12,11 @@
 						formControlName='email' 
 					>
 				</div>
-				<div class='form-group'>
+				<div class='form-group' id="passwordGroup" *ngIf="mustReauthenticate">
 					<label for='password'>Mot de passe</label>
 					<input type='password' id='password' class='form-control' formControlName='password'>
 				</div>
-				<div class="form-links">
-					<button class='btn btn-primary' [disabled]='signInForm.invalid'>Valider</button>
-					<a class='resetLink' routerLink='/auth/resetPassword'>Mot de passe oublié</a>
-				</div>
+				<button class='btn btn-primary' [disabled]='changeMailForm.invalid'>Valider</button>
 			</form>
 		</div>
 	</div>

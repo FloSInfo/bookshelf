@@ -1,0 +1,16 @@
+
+.bookslist-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 1rem;
+}
+
+h2 {
+    display: inline-block;
+}
+
+.btn.btn-primary {
+    height: fit-content;
+}

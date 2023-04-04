@@ -10,25 +10,34 @@
 		</div>
 		<div class='form-group'>
 			<label for='author'>Auteur*</label>
-			<input 	type='text' 
-							id='author' 
-							formControlName='author'
-							class='form-control'>
+			<input
+				type='text' 
+				id='author' 
+				formControlName='author'
+				class='form-control'>
 		</div>
 		<div class='form-group'>
 			<label for='synopsis'>Synopsis</label>
 			<textarea id='synopsis'
-								formControlName='synopsis'
-								class='form-control'></textarea>
+				formControlName='synopsis'
+				class='form-control'>
+			</textarea>
 		</div>
 		<div class='form-group'>
 			<h4>Ajouter une photo</h4>
 			<input 	type='file' 
-							id='photo'
-							accept='image/*'
-							class='form-control'
-							(change)='detectFiles($event)'>
+				id='photo'
+				accept='image/*'
+				class='form-control'
+				(change)='detectFiles($event)'>
+			<div id="picUploadState" class="uploadState">
+				<span id="uploadingNotif" class="uploading"><img src="/assets/loading.png" /> envoi de l'image</span>
+				<span id="uploadedNotif" class="uploaded"><img src="/assets/confirm.png" /> image enregistrée</span>
+			</div>
 		</div>
-		<button type='submit' [disabled]='bookForm.invalid || fileIsUploading' class='btn btn-success'>Valider</button>
+		<div class="btns-section">
+			<button type='submit' [disabled]='bookForm.invalid || fileIsUploading' class='btn btn-success'>Valider</button>
+			<button class='btn btn-danger cancel-button' routerLink='books'>Annuler</button>
+		</div>
 	</form>
 </div>

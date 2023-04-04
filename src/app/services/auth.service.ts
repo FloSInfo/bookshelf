@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import {Auth, getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, onAuthStateChanged, User} from "@firebase/auth";
+import {Auth, getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, deleteUser, EmailAuthProvider, reauthenticateWithCredential, sendPasswordResetEmail, updateEmail, onAuthStateChanged, User} from "@firebase/auth";
 
 @Injectable()
 export class AuthService {
@@ -21,6 +21,10 @@ export class AuthService {
     return this.auth.currentUser.uid;
   }
 
+  forceUserUpdate() {
+    this.authSubject.next(this.auth.currentUser);
+  }
+
   getMailAdress() {
     return this.auth.currentUser.providerData[0].email;
   }
@@ -31,6 +35,10 @@ export class AuthService {
 
   sendPasswordResetCode(email: string) {
     return sendPasswordResetEmail(this.auth, email);
+  }
+
+  changeUserEmail(newMail: string) {
+    return updateEmail(this.auth.currentUser, newMail);
   }
 
   createNewUser(email: string, password: string) {

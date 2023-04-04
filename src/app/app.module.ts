@@ -19,6 +19,7 @@ import { BooksService } from './services/books.service';
 import { UserAlertService } from 'src/app/services/user-alert.service';
 import { AccountDeletionComponent } from './auth/account-deletion/account-deletion.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
+import { EmailChangeComponent } from './auth/email-change/email-change.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PasswordResetComponent } from './auth/password-reset/password-reset.com
     BookFormComponent,
     HeaderComponent,
     AccountDeletionComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    EmailChangeComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { PasswordResetComponent } from './auth/password-reset/password-reset.com
       { path: 'auth/signup', component: SignupComponent },
       { path: 'auth/signin', component: SigninComponent },
       { path: 'auth/resetPassword', component: PasswordResetComponent },
+      { path: 'auth/changeEmail', canActivate: [AuthGuardService], component: EmailChangeComponent },
       { path: 'auth/deleteAccount', canActivate: [AuthGuardService], component: AccountDeletionComponent },
       { path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
       { path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },

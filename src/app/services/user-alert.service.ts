@@ -11,7 +11,7 @@ export class UserAlertService {
 
   constructor() { }
 
-  alert(message: string, time: number = -1){
+  alert(message: string, time: number = 15000){
     this.alertMessage = message;
     this.messageSubject.next(message);
 

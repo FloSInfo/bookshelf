@@ -6,9 +6,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { Book } from 'src/app/models/book.model';
 
 @Component({
-  selector: 'app-book-form',
-  templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.scss']
+	selector: 'app-book-form',
+	templateUrl: './book-form.component.html',
+	styleUrls: ['./book-form.component.scss']
 })
 export class BookFormComponent implements OnInit {
 
@@ -16,56 +16,64 @@ export class BookFormComponent implements OnInit {
 	fileIsUploading = false;
 	fileIsUploaded = false;
 	fileUrl: string;
+	uploadingNotif;
+	uploadedNotif;
 
-  constructor(private booksService: BooksService,
-              private authService: AuthService,
-              private router: Router,
-  						private formBuilder: FormBuilder) { }
+	constructor(
+		private booksService: BooksService,
+		private authService: AuthService,
+		private router: Router,
+		private formBuilder: FormBuilder) { }
 
-  ngOnInit(): void {
-  	this.initForm();
-  }
+	ngOnInit(): void {
+		this.initForm();
+		this.uploadingNotif = document.getElementById('uploadingNotif');
+		this.uploadedNotif = document.getElementById('uploadedNotif');
+	}
 
-  initForm() {
-  	this.bookForm = this.formBuilder.group(
-  		{
-  			'title': ['', [Validators.required, Validators.minLength(2)]],
-  			'author': ['', [Validators.required, Validators.minLength(2)]],
-  			'synopsis': ''
-  		}
-  	);
-  }
+	initForm() {
+		this.bookForm = this.formBuilder.group(
+			{
+				'title': ['', [Validators.required, Validators.minLength(2)]],
+				'author': ['', [Validators.required, Validators.minLength(2)]],
+				'synopsis': ''
+			}
+		);
+	}
 
-  onSubmit(form){
-  	if(form.valid){
-  		let newBook = new Book(form.value.title, form.value.author);
+	onSubmit(form) {
+		if (form.valid) {
+			let newBook = new Book(form.value.title, form.value.author);
 
-  		if(form.value.synopsis) {
-  			newBook.synopsis = form.value.synopsis;
-  		}
+			if (form.value.synopsis) {
+				newBook.synopsis = form.value.synopsis;
+			}
 
-  		if(this.fileUrl && this.fileUrl !== ''){
-  			newBook.photo = this.fileUrl;
-  		}
+			if (this.fileUrl && this.fileUrl !== '') {
+				newBook.photo = this.fileUrl;
+			}
 
-  		this.booksService.createNewBook(this.authService.getUid(), newBook);
-  		this.router.navigate(['/books']);
-  	}
-  }
+			this.booksService.createNewBook(this.authService.getUid(), newBook);
+			this.router.navigate(['/books']);
+		}
+	}
 
-  detectFiles(e){
-  	this.onUploadFile(e.target.files[0]);
-  }
+	detectFiles(e) {
+		this.onUploadFile(e.target.files[0]);
+	}
 
-  onUploadFile(file: File){
-  	this.fileIsUploading = true;
-  	this.booksService.uploadImage(file).then(
-  		(url: string) => {
-  			console.log(url);
-  			this.fileUrl = url;
-  			this.fileIsUploaded = true;
-  			this.fileIsUploading = false;
-  		}
-  	)
-  }
+	onUploadFile(file: File) {
+		this.fileIsUploading = true;
+		this.uploadedNotif.style = "display: none";
+		this.uploadingNotif.style = "display: inline";
+		this.booksService.uploadImage(file).then(
+			(url: string) => {
+				this.fileUrl = url;
+				this.fileIsUploaded = true;
+				this.fileIsUploading = false;
+				this.uploadingNotif.style = "display: none";
+				this.uploadedNotif.style = "display: inline";
+			}
+		)
+	}
 }

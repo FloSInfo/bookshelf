@@ -16,6 +16,7 @@ export class HeaderComponent implements OnInit {
   userAlertServiceSubscription: Subscription;
   userAlert = '';
   username = '';
+  menuExpanded = false;
 
   constructor(private authService: AuthService,
     private userAlertService: UserAlertService,
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.authService.authSubject.subscribe(
       (user) => {
-        if(user) {
+        if (user) {
           this.isAuth = true;
           // @ts-ignore
           this.username = user.providerData[0].email;
@@ -50,13 +51,22 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  //start parameters menu icon's animation when its submenu is expanded
+  //play parameters menu svg's animation when clicked
   onParamClick(event) {
-    let anim = document.getElementById('paramRotation');
+    let anim = event.currentTarget.getElementsByClassName('paramRotation')[0];
     if (event.currentTarget.getAttribute('aria-expanded') === 'false') {
-      // @ts-expect-error
       anim.beginElement();
     }
+  }
+
+  onMobileMenuExpand(event) {
+    var menu = document.getElementById('mobile-param-menu');
+    var onBodyClick = (event) => {
+      menu.className = '';
+    };
+    menu.className = (menu.className == 'show')?'':'show';
+    event.stopPropagation();
+    document.body.addEventListener('click', onBodyClick, { once: true });
   }
 
   displayUserAlert(x) {
@@ -85,7 +95,7 @@ export class HeaderComponent implements OnInit {
         switch (error.code) {
           case 'auth/requires-recent-login':
             this.userAlertService.alert('Cette action nécessite une authentification récente pour être validée, veuillez vous ré-authentifier pour continuer');
-            this.router.navigate(['/auth','deleteAccount']);
+            this.router.navigate(['/auth', 'deleteAccount']);
             break;
           default:
             this.userAlertService.alert(error.message);

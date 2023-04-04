@@ -1,3 +1,8 @@
+.col {
+	max-width: 30rem;
+	margin: 0 auto;
+}
+
 form {
 	margin: 1rem;
 	font-size: 1.5rem;
@@ -9,15 +14,14 @@ h2 {
 
 button{
 	font-size: 1.3rem;
+	padding: 0.1em 0.5em;
 	:disabled {
 		background-color: grey;
 		border-color: grey;
 	}
 }
 
-
 .form-control{
-	max-width: 30em;
 	&.ng-dirty {
 		&.ng-valid {
 			border-color: green;
@@ -34,4 +38,17 @@ button{
 			}
 		}
 	}
+}
+
+.form-links {
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.resetLink {
+	color: black;
+	font-size: 1rem;
+	font-style: italic;
+	margin-top: 13px;
 }
