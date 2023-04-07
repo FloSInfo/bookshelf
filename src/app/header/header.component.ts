@@ -89,16 +89,15 @@ export class HeaderComponent implements OnInit {
     if (window.confirm('Vous êtes sur le point de supprimer définitivement votre compte utilisateur ainsi que les données liées.')) {
       this.authService.removeCurrentUser().then(
         () => {
-          this.userAlertService.alert('Suppression du compte réussie.', 15000);
+          this.userAlertService.userAlert('Suppression du compte réussie.', 15000);
         }
       ).catch((error) => {
-        switch (error.code) {
-          case 'auth/requires-recent-login':
-            this.userAlertService.alert('Cette action nécessite une authentification récente pour être validée, veuillez vous ré-authentifier pour continuer');
-            this.router.navigate(['/auth', 'deleteAccount']);
-            break;
-          default:
-            this.userAlertService.alert(error.message);
+        if (error.code === 'auth/requires-recent-login') {
+          this.displayUserAlert('Cette action nécessite une authentification récente pour être validée, veuillez vous ré-authentifier pour continuer');
+          this.router.navigate(['/auth', 'deleteAccount']);
+        }
+        else {
+          this.userAlertService.handleFirebaseAuthError(error.message);
         }
       });
     }

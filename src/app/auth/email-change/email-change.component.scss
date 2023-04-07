@@ -1,3 +1,43 @@
 p {
     margin: 1.5em 0;
+    font-size: 1.5rem;
+}
+
+.col {
+	max-width: 30rem;
+	margin: 0 auto;
+}
+
+form {
+	margin: 1rem;
+	font-size: 1.5rem;
+}
+
+.form-control{
+	font-size: 1.3rem;
+	&.ng-dirty {
+		&.ng-valid {
+			border-color: green;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #3cdc3c40;
+			}
+		}
+		&.ng-invalid {
+			border-color: red;
+
+			&:focus {
+				box-shadow: 0 0 0 .2rem #dc3c3c40;
+			}
+		}
+	}
+}
+
+button{
+	font-size: 1.3rem;
+	padding: 0.1em 0.5em;
+	&:disabled {
+		background-color: grey;
+		border-color: grey;
+	}
 }

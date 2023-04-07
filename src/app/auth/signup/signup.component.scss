@@ -1,3 +1,8 @@
+.col {
+	max-width: 30rem;
+	margin: 0 auto;
+}
+
 form {
 	margin: 1rem;
 	font-size: 1.5rem;
@@ -7,17 +12,21 @@ h2 {
 	font-size: 2.5rem;
 }
 
-form > button.btn.btn-primary {
+button {
 	font-size: 1.3rem;
-	margin-top: 1rem;
-	:disabled {
+	padding: 0.1em 0.5em;
+	&:disabled {
 		background-color: grey;
 		border-color: grey;
 	}
 }
 
+//remove a weird space between last input and submit button
+.form-links {
+	font-size: 1rem;
+}
+
 .form-control{
-	max-width: 30rem;
 	font-size: 1.3rem;
 	&.ng-dirty {
 		&.ng-valid {

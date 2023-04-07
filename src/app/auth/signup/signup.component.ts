@@ -58,15 +58,7 @@ export class SignupComponent implements OnInit {
   		}
   	).catch(
   		(error) => {
-  			this.errorMessage = error;
-        console.log(error.code);
-        switch(error.code) {
-          case 'auth/email-already-in-use':
-            this.userAlertService.alert('Cette adresse email est déjà utilisée.');
-            break;
-          default:
-            this.userAlertService.alert(error.message);
-        }
+  			this.userAlertService.handleFirebaseAuthError(error);
   		}
   	);
   }

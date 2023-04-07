@@ -15,13 +15,15 @@ h2 {
 button{
 	font-size: 1.3rem;
 	padding: 0.1em 0.5em;
-	:disabled {
+	&:disabled {
 		background-color: grey;
 		border-color: grey;
 	}
 }
 
 .form-control{
+	max-width: 30rem;
+	font-size: 1.3rem;
 	&.ng-dirty {
 		&.ng-valid {
 			border-color: green;
@@ -41,14 +43,19 @@ button{
 }
 
 .form-links {
+	font-size: 1rem;
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
+	align-items: end;
 }
 
 .resetLink {
 	color: black;
 	font-size: 1rem;
 	font-style: italic;
-	margin-top: 13px;
+
+	@media only screen and (max-width:283px){
+		margin-top: 1em;
+	}
 }

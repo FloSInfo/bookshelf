@@ -37,19 +37,13 @@ export class AccountDeletionComponent implements OnInit {
     this.authService.reAuthenticateCurrentUser(password).then(()=>{
       this.authService.removeCurrentUser().then(
         () => {
-          this.userAlertService.alert('Suppression du compte réussie.', 10000);
+          this.userAlertService.userAlert('Suppression du compte réussie.', 10000);
         }
       ).catch((error) => {
-        this.userAlertService.alert(error.message);
+        this.userAlertService.userAlert(error.message);
       });
     }).catch((error)=>{
-      switch(error.code) {
-        case 'auth/wrong-password':
-          this.userAlertService.alert('Le mot de passe renseigné n\'est pas le bon.');
-          break;
-        default:
-          this.userAlertService.alert(error.message);
-      }
+      this.userAlertService.handleFirebaseAuthError(error);
     });
   }
 }

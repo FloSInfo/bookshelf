@@ -20,6 +20,7 @@ import { UserAlertService } from 'src/app/services/user-alert.service';
 import { AccountDeletionComponent } from './auth/account-deletion/account-deletion.component';
 import { PasswordResetComponent } from './auth/password-reset/password-reset.component';
 import { EmailChangeComponent } from './auth/email-change/email-change.component';
+import { EmailLinkComponent } from './email-link/email-link.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { EmailChangeComponent } from './auth/email-change/email-change.component
     HeaderComponent,
     AccountDeletionComponent,
     PasswordResetComponent,
-    EmailChangeComponent
+    EmailChangeComponent,
+    EmailLinkComponent
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { EmailChangeComponent } from './auth/email-change/email-change.component
       { path: 'auth/resetPassword', component: PasswordResetComponent },
       { path: 'auth/changeEmail', canActivate: [AuthGuardService], component: EmailChangeComponent },
       { path: 'auth/deleteAccount', canActivate: [AuthGuardService], component: AccountDeletionComponent },
+      { path: 'auth/emailLink', component: EmailLinkComponent },
       { path: 'books', canActivate: [AuthGuardService], component: BookListComponent },
       { path: 'books/new', canActivate: [AuthGuardService], component: BookFormComponent },
       { path: 'books/view/:id', canActivate: [AuthGuardService], component: SingleBookComponent },

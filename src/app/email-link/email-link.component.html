@@ -1,0 +1,22 @@
+<div class='container'>
+    <div class='row'>
+        <div class='col' *ngIf="resetPsw">
+            <form [formGroup]='newPasswordForm' (ngSubmit)='onPasswordSubmit()'>
+                <div class="form-group">
+                    <label for="newPassword">Nouveau mot de passe</label>
+                    <input type="password" id="newPassword" class="form-control" formControlName="newPassword">
+                </div>
+                <button class='btn btn-primary' [disabled]='newPasswordForm.invalid'>Modifier le mot de passe</button>
+            </form>
+        </div>
+        <div class="col" *ngIf="revertMailUpdate">
+            <p>Revenir à votre précédente adresse email ? 
+                <span *ngIf='formerMail'>(Votre email d'authentification redeviendra "{{formerMail}}")</span>
+            </p>
+            <div class='buttons-line'>
+                <button class='btn btn-success' (click)='onEmailRevert()'>Continuer</button>
+                <button class='btn btn-danger' routerLink=''>Annuler</button>    
+            </div>
+        </div>
+    </div>
+</div>

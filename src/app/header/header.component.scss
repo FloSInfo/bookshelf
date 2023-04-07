@@ -1,6 +1,8 @@
 .navbar {
 	@media only screen and (max-width: 600px) {
 		padding: 0;
+		justify-content: space-between;
+		flex-wrap: nowrap;
 	}
 }
 
@@ -8,7 +10,7 @@
 	display: flex;
 	flex-direction: row;
 	height: 100%;
-	flex-wrap: wrap;
+	flex-wrap:wrap;
 }
 
 .nav-item {
@@ -21,6 +23,7 @@
 	&.active>.nav-link {
 		display: none;
 	}
+
 }
 
 .userWarning {
@@ -34,14 +37,15 @@
 	margin: auto;
 	padding: 0 1em;
 	font-style: italic;
+	font-weight: bold;
 	color: #ffb100;
 	background-color: #f8f9fa;
 	width: 100%;
 
-	@media only screen and (max-width: 600px) {
-		position: fixed;
-		bottom: 62px;
-	}
+	// @media only screen and (max-width: 600px) {
+	// 	position: fixed;
+	// 	bottom: 62px;
+	// }
 }
 
 #param-menu {
@@ -92,8 +96,12 @@
 	}
 
 	&>button {
-
 		transition: transform 100ms;
+		display: flex;
+		justify-content: end;
+		align-items: center;
+		flex-wrap: wrap;
+		padding: 0;
 
 		&:hover {
 			transform: scale(1.05);

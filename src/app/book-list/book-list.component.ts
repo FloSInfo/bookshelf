@@ -23,7 +23,7 @@ export class BookListComponent implements OnInit, OnDestroy{
   	this.booksSubscription = this.booksService.booksSubject.subscribe(
     {
     	next:	value => this.booksList = value,
-    	error: err => console.log('book-list.booksSubscription.next(): '+err)
+    	error: err => console.log('Bookslist subscription error'+err)
   	});
 
   	this.booksService.getBooks(this.authService.getUid());
@@ -35,7 +35,8 @@ export class BookListComponent implements OnInit, OnDestroy{
   	}
   }
 
-  onDeleteBook(book: Book){
+  onDeleteBook(book: Book, event){
+    event.stopPropagation();
     if(confirm('"'+book.title+'"\n\rCe livre sera supprimé de votre bibliothèque. Continuer ?')){
       this.booksService.removeBook(this.authService.getUid(), book);
     }

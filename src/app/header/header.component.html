@@ -32,6 +32,7 @@
 	</div>
 	<div id="mobile-param-menu" *ngIf='isAuth'>
 		<button class="btn" type="button" aria-haspopup="true" aria-expanded="false" (click)='[onParamClick($event), onMobileMenuExpand($event)]'>
+			<span class='username'>{{username}}</span>
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="48" height="48">
 				<path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0Zm-1.5 0a2.5 2.5 0 1 0-5 0 2.5 2.5 0 0 0 5 0Z"></path>
 				<path
