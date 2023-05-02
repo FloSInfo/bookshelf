@@ -6,7 +6,7 @@
 		<li class='nav-item' routerLinkActive='active' *ngIf='!isAuth'>
 			<a class='nav-link' routerLink='auth/signin'>Connexion</a>
 		</li>
-		<li class='nav-item' routerLinkActive='active' *ngIf='isAuth'>
+		<li class='nav-item' routerLinkActive='active' [routerLinkActiveOptions]="{exact: true}" *ngIf='isAuth'>
 			<a class='nav-link' routerLink='books'>Liste des livres</a>
 		</li>
 	</ul>

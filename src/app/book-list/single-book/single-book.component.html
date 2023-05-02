@@ -6,13 +6,12 @@
 	<div class='row' name='book__synopsis'>
 		<p class='font-italic m-2 col-12'>{{ book.synopsis }}</p>
 	</div>
-	<div class='row' name='book__photo'>
-		<img 	*ngIf='book.photo'
-					[src]='book.photo' 
-					alt='Image de couverture du livre'
-					class='img-fluid img-thumbnail col-9'>
+	<div class='row' name='book__photo' id='book__photo'>
+		<img *ngIf='book.photo'
+			[src]='book.photo' 
+			alt='Image de couverture du livre'>
 	</div>
-	<div class='row'>
+	<div class='row buttons-line'>
 		<button type='button' class='btn btn-secondary m-2' (click)='onBack()'>Retour</button>
 		<button type='button' class='btn btn-danger m-2' (click)='onDeleteBook()'>Supprimer</button>
 	</div>
